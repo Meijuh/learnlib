@@ -17,6 +17,7 @@ package de.learnlib.oracle.parallelism;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -25,7 +26,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import de.learnlib.api.oracle.MembershipOracle;
+import de.learnlib.api.oracle.MembershipOracle.DFAMembershipOracle;
 import de.learnlib.oracle.parallelism.ParallelOracle.PoolPolicy;
+import de.learnlib.oracle.parallelism.StaticParallelOracle.DFAStaticParallelOracle;
+import de.learnlib.oracle.parallelism.StaticParallelOracle.MealyStaticParallelOracle;
 
 /**
  * A builder for a {@link StaticParallelOracle}.
@@ -96,7 +100,7 @@ public class StaticParallelOracleBuilder<I, D> {
     }
 
     @Nonnull
-    public StaticParallelOracle<I, D> create() {
+    private Collection<? extends MembershipOracle<I, D>> create() {
         Collection<? extends MembershipOracle<I, D>> oracleInstances;
         if (oracles != null) {
             oracleInstances = oracles;
@@ -108,7 +112,22 @@ public class StaticParallelOracleBuilder<I, D> {
             oracleInstances = oracleList;
         }
 
-        return new StaticParallelOracle<>(oracleInstances, minBatchSize, poolPolicy);
+        return oracleInstances;
+    }
+
+    @Nonnull
+    public StaticParallelOracle<I, D> createAny() {
+        return new StaticParallelOracle(create(), minBatchSize, poolPolicy);
+    }
+
+    @Nonnull
+    public DFAStaticParallelOracle<I> createDFA() {
+        return new DFAStaticParallelOracle(create(), minBatchSize, poolPolicy);
+    }
+
+    @Nonnull
+    public <O> MealyStaticParallelOracle<I, O> createMealy() {
+        return new MealyStaticParallelOracle(create(), minBatchSize, poolPolicy);
     }
 
 }

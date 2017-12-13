@@ -19,6 +19,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import de.learnlib.api.oracle.MembershipOracle;
+import net.automatalib.words.Word;
 
 /**
  * Basic interface for {@link MembershipOracle}s that can process queries in parallel.
@@ -74,4 +75,8 @@ public interface ParallelOracle<I, D> extends MembershipOracle<I, D> {
          */
         CACHED
     }
+
+    interface MealyParallelOracle<I, O> extends ParallelOracle<I, Word<O>>, MealyMembershipOracle<I, O> {}
+
+    interface DFAParallelOracle<I> extends ParallelOracle<I, Boolean>, DFAMembershipOracle<I> {}
 }

@@ -32,6 +32,7 @@ import com.google.common.base.Throwables;
 import de.learnlib.api.oracle.MembershipOracle;
 import de.learnlib.api.query.Query;
 import de.learnlib.setting.LearnLibSettings;
+import net.automatalib.words.Word;
 
 /**
  * A membership oracle that statically distributes a set of queries among several threads.
@@ -174,4 +175,25 @@ public class StaticParallelOracle<I, D> implements ParallelOracle<I, D> {
         executor.shutdownNow();
     }
 
+    public static class MealyStaticParallelOracle<I, O>
+            extends StaticParallelOracle<I, Word<O>>
+            implements MealyParallelOracle<I, O> {
+
+        public MealyStaticParallelOracle(Collection<? extends MealyMembershipOracle<I, O>> oracles,
+                                         int minBatchSize,
+                                         PoolPolicy policy) {
+            super(oracles, minBatchSize, policy);
+        }
+    }
+
+    public static class DFAStaticParallelOracle<I>
+            extends StaticParallelOracle<I, Boolean>
+            implements DFAParallelOracle<I> {
+
+        public DFAStaticParallelOracle(Collection<? extends DFAMembershipOracle<I>> oracles,
+                                       int minBatchSize,
+                                       PoolPolicy policy) {
+            super(oracles, minBatchSize, policy);
+        }
+    }
 }

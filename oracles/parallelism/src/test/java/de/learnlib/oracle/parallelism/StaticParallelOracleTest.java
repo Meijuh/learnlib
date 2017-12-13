@@ -49,7 +49,7 @@ public class StaticParallelOracleTest {
         }
 
         parallelOracle =
-                ParallelOracleBuilders.newStaticParallelOracle(oracles).withMinBatchSize(MIN_BATCH_SIZE).create();
+                ParallelOracleBuilders.newStaticParallelOracle(oracles).withMinBatchSize(MIN_BATCH_SIZE).createAny();
     }
 
     @AfterClass
