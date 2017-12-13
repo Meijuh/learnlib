@@ -30,6 +30,7 @@ import de.learnlib.api.exception.SULException;
  *
  * @author falkhowar
  * @author Malte Isberner
+ * @author Jeroen Meijer
  */
 public interface SUL<I, O> {
 
@@ -86,5 +87,54 @@ public interface SUL<I, O> {
     @Nonnull
     default SUL<I, O> fork() throws UnsupportedOperationException {
         throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Returns whether this SUL can retrieve the state of the system.
+     *
+     * If this method returns {@code false} then {@link #getState()} must throw an
+     * {@link UnsupportedOperationException}.
+     *
+     * @return whether the state can be retrieved.
+     */
+    default boolean canRetrieveState() {
+        return false;
+    }
+
+    /**
+     * Returns the current state of the system.
+     *
+     * Implementation note: it is important that the returned Object has a well-defined {@link #equals(Object)}
+     * method, and a good {@link #hashCode()} function.
+     *
+     * If this methods throws {@link UnsupportedOperationException}s then {@link #canRetrieveState()} must return
+     * {@code false}.
+     *
+     * @return the current state of the system.
+     *
+     * @throws UnsupportedOperationException if the current state can not be retrieved.
+     */
+    @Nonnull
+    default Object getState() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Returns whether each state retrieved with {@link #getState()} is a deep copy.
+     *
+     * A state is a deep copy if calls to either {@link #step(Object)}, {@link #pre()}, or {@link #post()} do not modify
+     * any state previously obtained with {@link #getState()}.
+     *
+     * More formally (assuming a perfect hash function): the result must be false if there is a case where in the
+     * following statements the assertion does not hold:
+     * {@code Object o = getState(); int hc = o.hashCode(); [step(...)|pre()|post()]; assert o.hashCode() == hc;}
+     *
+     * Furthermore, if states can be retrieved, but each state is not a deep copy, then this SUL <b>must</b> be
+     * forkable, i.e. if {@link #canRetrieveState()} && !{@link #deepCopies()} then {@link #canFork()} must hold.
+     *
+     * @return whether each state is a deep copy.
+     */
+    default boolean deepCopies() {
+        return false;
     }
 }

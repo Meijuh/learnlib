@@ -80,6 +80,16 @@ limitations under the License.
             <name>Oliver Bauer</name>
             <email>oliver.bauer@tu-dortmund.de</email>
         </developer>
+        <developer>
+            <id>meijuh</id>
+            <name>Jeroen Meijer</name>
+            <email>j.j.g.meijer@utwente.nl</email>
+            <organization>University of Twente, Formal Methods and Tools</organization>
+            <organizationUrl>http://fmt.cs.utwente.nl/</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
     </developers>
 
     <!--
@@ -117,6 +127,7 @@ limitations under the License.
         <module>examples</module>
         <module>oracles</module>
         <module>test-support</module>
+        <module>model-checkers</module>
     </modules>
 
     <!--

@@ -72,4 +72,34 @@ public class ResetCounterSUL<I, O> implements StatisticSUL<I, O> {
     public Counter getStatisticalData() {
         return counter;
     }
+
+    @Override
+    public boolean deepCopies() {
+        return sul.deepCopies();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return sul.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return sul.hashCode();
+    }
+
+    @Override
+    public boolean canRetrieveState() {
+        return sul.canRetrieveState();
+    }
+
+    @Override
+    public Object getState() throws UnsupportedOperationException {
+        return sul.getState();
+    }
+
+    @Override
+    public String toString() {
+        return sul.toString();
+    }
 }

@@ -24,6 +24,7 @@ import de.learnlib.api.SUL;
 import de.learnlib.api.exception.SULException;
 import de.learnlib.api.oracle.MembershipOracle.MealyMembershipOracle;
 import de.learnlib.api.query.Query;
+import lombok.Getter;
 import net.automatalib.words.Word;
 import net.automatalib.words.WordBuilder;
 
